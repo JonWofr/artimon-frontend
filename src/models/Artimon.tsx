@@ -3,4 +3,5 @@ export interface Artimon {
   type: 'fire' | 'water' | 'leaf';
   description: string;
   avatarUrl: string;
+  trainer?: string;
 }

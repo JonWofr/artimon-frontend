@@ -2,9 +2,10 @@ module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
-      textColor: {
+      colors: {
         primary: '#FFFFFF',
         secondary: '#F2F2F2',
+        muted: '#5A5A5A',
       },
       backgroundColor: {
         primary: '#262626',

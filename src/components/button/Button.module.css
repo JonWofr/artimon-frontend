@@ -1,25 +1,6 @@
 .button {
-  position: relative;
-  z-index: 0;
-  overflow: hidden;
-}
-
-.button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
-  width: 100%;
-  height: 100%;
-  background-image: linear-gradient(
-    90deg,
-    hsl(212, 69%, 69%),
-    hsl(126, 69%, 69%)
-  );
-  transition: filter 0.25s ease-in-out;
-}
-
-.button:hover::before {
-  filter: brightness(0.8);
+  background-image: linear-gradient(white, white), linear-gradient(red, blue);
+  background-clip: padding-box, border-box;
+  border: 1px solid transparent;
+  border-radius: 50%;
 }

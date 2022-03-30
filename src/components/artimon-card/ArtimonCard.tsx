@@ -48,6 +48,14 @@ const ArtimonCard = ({ artimon, className }: Props) => {
         />
       </header>
       <p className="font-secondary text-secondary">{artimon.description}</p>
+      {artimon.trainer && (
+        <p className="font-secondary text-secondary text-xs">
+          Trainer:{' '}
+          <span className="underline break-all lining-nums">
+            {artimon.trainer}
+          </span>
+        </p>
+      )}
     </article>
   );
 };

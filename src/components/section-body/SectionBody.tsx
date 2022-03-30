@@ -2,10 +2,11 @@ import React from 'react';
 
 type Props = {
   children?: React.ReactNode;
+  className?: string;
 };
 
-const SectionBody = ({ children }: Props) => {
-  return <div className="mt-12">{children}</div>;
+const SectionBody = ({ children, className }: Props) => {
+  return <div className={`mt-12 ${className}`}>{children}</div>;
 };
 
 export default SectionBody;
