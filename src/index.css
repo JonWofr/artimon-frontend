@@ -6,40 +6,34 @@
   font-family: 'Poppins';
   src: url('./assets/fonts/Poppins-Light.ttf');
   font-weight: 300;
-  font-display: swap;
 }
 
 @font-face {
   font-family: 'Poppins';
   src: url('./assets/fonts/Poppins-Regular.ttf');
   font-weight: 400;
-  font-display: swap;
 }
 
 @font-face {
   font-family: 'Poppins';
   src: url('./assets/fonts/Poppins-Bold.ttf');
   font-weight: 700;
-  font-display: swap;
 }
 
 @font-face {
   font-family: 'Raleway';
   src: url('./assets/fonts/Raleway-Light.ttf');
   font-weight: 300;
-  font-display: swap;
 }
 
 @font-face {
   font-family: 'Raleway';
   src: url('./assets/fonts/Raleway-Regular.ttf');
   font-weight: 400;
-  font-display: swap;
 }
 
 @font-face {
   font-family: 'Raleway';
   src: url('./assets/fonts/Raleway-Bold.ttf');
   font-weight: 700;
-  font-display: swap;
 }

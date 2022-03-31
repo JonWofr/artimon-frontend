@@ -1,5 +1,4 @@
 import React from 'react';
-import { artimons } from '../../assets/raw/artimons';
 import ArtimonCard from '../artimon-card';
 import Button from '../button';
 import SectionBody from '../section-body';
@@ -23,12 +22,15 @@ const GenerationSecondSlide = ({
         title="Generate a brandnew artimon"
         subtitle="Generation"
       />
-      <SectionBody className="flex flex-col gap-8">
-        <div key={artimon.name} className="max-w-xs mx-auto animate-fade-in">
+      <SectionBody className="flex flex-col gap-8 md:max-w-screen-md md:mx-auto md:flex-row md:items-center md:gap-12">
+        <div
+          key={artimon.name}
+          className="max-w-xs mx-auto animate-fade-in md:max-w-none md:mx-0 md:flex-1"
+        >
           <ArtimonCard artimon={artimon} />
         </div>
-        <div className="space-y-6">
-          <p className="text-secondary font-secondary text-center">
+        <div className="flex flex-col gap-6 items-center md:flex-1 md:items-start">
+          <p className="text-secondary font-secondary text-center md:text-left">
             Hooray,{' '}
             <span className="font-bold">{artimon.name} got created!</span>{' '}
             Though be careful it does not yet belong to you. For that you have
@@ -39,7 +41,6 @@ const GenerationSecondSlide = ({
             label="Generate again"
             Icon={RefreshIconAccent}
             type="inverted-primary"
-            className="mx-auto"
             onClick={onClickGenerateAgainButton}
           />
         </div>

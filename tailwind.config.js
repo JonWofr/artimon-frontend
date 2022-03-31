@@ -29,6 +29,9 @@ module.exports = {
         'fade-in': 'fade-in .5s ease-in-out',
         'spin-slow': 'spin 2s linear infinite',
         dash: 'dash 1.5s ease-in-out infinite',
+        'fist-artimon-card': 'fade-in .5s ease-in-out',
+        'second-artimon-card': 'fade-in .5s ease-in-out .1s 1 normal both',
+        'third-artimon-card': 'fade-in .5s ease-in-out .2s 1 normal both',
       },
       keyframes: {
         'fade-in': {
@@ -59,7 +62,6 @@ module.exports = {
       center: true,
       padding: {
         DEFAULT: '.75rem',
-        sm: '0',
       },
     },
   },
