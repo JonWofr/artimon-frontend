@@ -8,7 +8,7 @@ interface Props {
       title?: string | undefined;
     }
   >;
-  type?: 'normal' | 'inverted';
+  type?: 'normal' | 'inverted-primary' | 'inverted-secondary';
   className?: string;
   isDisabled?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
@@ -30,8 +30,12 @@ const Button = ({
         {
           'before:bg-gradient-to-r before:from-accentFrom before:to-accentTo':
             type === 'normal',
-          'before:bg-[linear-gradient(#262626,_#262626),_linear-gradient(to_right,_#79ACE6,_#79E684)] before:[background-clip:_padding-box,_border-box] before:border before:border-solid before:border-transparent':
-            type === 'inverted',
+          'before:[background-clip:_padding-box,_border-box] before:border before:border-solid before:border-transparent':
+            type === 'inverted-primary' || type === 'inverted-secondary',
+          'before:bg-[linear-gradient(#262626,_#262626),_linear-gradient(to_right,_#79ACE6,_#79E684)]':
+            type === 'inverted-primary',
+          'before:bg-[linear-gradient(#333333,_#333333),_linear-gradient(to_right,_#79ACE6,_#79E684)]':
+            type === 'inverted-secondary',
           'before:brightness-[.4]': isDisabled,
           'hover:before:brightness-75': !isDisabled,
         },
@@ -46,7 +50,7 @@ const Button = ({
           {
             'text-primary': type === 'normal',
             'bg-gradient-to-r from-accentFrom to-accentTo text-transparent bg-clip-text':
-              type === 'inverted',
+              type === 'inverted-primary' || type === 'inverted-secondary',
           }
         )}
       >

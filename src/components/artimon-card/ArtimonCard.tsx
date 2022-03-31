@@ -14,7 +14,7 @@ const ArtimonCard = ({ artimon, className }: Props) => {
   return (
     <article
       className={classNames(
-        'p-6 rounded-2xl shadow-md bg-gradient-to-b space-y-3',
+        'p-6 rounded-2xl bg-gradient-to-b space-y-3',
         {
           'from-fireFrom to-fireTo': artimon.type === 'fire',
           'from-waterFrom to-waterTo': artimon.type === 'water',

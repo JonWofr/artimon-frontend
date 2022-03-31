@@ -31,7 +31,7 @@ const GenerationFirstSlide = ({ onClickGenerateButton }: Props) => {
           <Button
             label="Generate"
             Icon={GearIconAccent}
-            type="inverted"
+            type="inverted-primary"
             className="mx-auto"
             onClick={onClickGenerateButton}
           />

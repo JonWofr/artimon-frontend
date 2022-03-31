@@ -38,7 +38,7 @@ const GenerationSecondSlide = ({
           <Button
             label="Generate again"
             Icon={RefreshIconAccent}
-            type="inverted"
+            type="inverted-primary"
             className="mx-auto"
             onClick={onClickGenerateAgainButton}
           />

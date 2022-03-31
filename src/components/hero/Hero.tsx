@@ -29,7 +29,7 @@ const Hero = () => {
           and mint it as an NFT to show it to the world!
         </p>
         <Button
-          label="KLicken"
+          label="Generate"
           Icon={GearIcon}
           onClick={() => {
             console.log('hallo');

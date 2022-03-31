@@ -29,7 +29,7 @@ const MintingFirstSlide = ({ artimon, onClickMintButton }: Props) => {
           <Button
             label="Mint"
             Icon={PickaxeIcon}
-            type="inverted"
+            type="inverted-primary"
             className="mx-auto"
             onClick={onClickMintButton}
           />
