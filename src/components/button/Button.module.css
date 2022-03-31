@@ -1,6 +1,0 @@
-.button {
-  background-image: linear-gradient(white, white), linear-gradient(red, blue);
-  background-clip: padding-box, border-box;
-  border: 1px solid transparent;
-  border-radius: 50%;
-}

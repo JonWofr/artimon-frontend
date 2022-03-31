@@ -35,8 +35,8 @@ const HowItWorksSection = () => {
       <SectionHeader title="How it works" subtitle="Technique" />
       <SectionBody>
         <ul className="space-y-8">
-          {items.map((item) => (
-            <HowItWorksItem {...item} />
+          {items.map((item, index) => (
+            <HowItWorksItem key={index} {...item} />
           ))}
         </ul>
       </SectionBody>

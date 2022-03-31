@@ -5,7 +5,7 @@ import Button from '../button';
 import SectionBody from '../section-body';
 import SectionHeader from '../section-header';
 import Slide from '../slide';
-import { ReactComponent as RefreshIcon } from '../../assets/icons/refresh-icon.svg';
+import { ReactComponent as RefreshIconAccent } from '../../assets/icons/refresh-icon-accent.svg';
 import { Artimon } from '../../models/Artimon';
 
 interface Props {
@@ -24,19 +24,20 @@ const GenerationSecondSlide = ({
         subtitle="Generation"
       />
       <SectionBody className="flex flex-col gap-8">
-        <div className="max-w-xs mx-auto">
+        <div key={artimon.name} className="max-w-xs mx-auto animate-fade-in">
           <ArtimonCard artimon={artimon} />
         </div>
         <div className="space-y-6">
           <p className="text-secondary font-secondary text-center">
-            Hooray, <span className="font-bold">Solomonan got created!</span>{' '}
+            Hooray,{' '}
+            <span className="font-bold">{artimon.name} got created!</span>{' '}
             Though be careful it does not yet belong to you. For that you have
             to mint it in the next step. You can also indefinitely repeat the
             generation to get an entirely different Artimon each time.
           </p>
           <Button
             label="Generate again"
-            Icon={RefreshIcon}
+            Icon={RefreshIconAccent}
             type="inverted"
             className="mx-auto"
             onClick={onClickGenerateAgainButton}

@@ -10,8 +10,8 @@ const GenerationProgressBar = ({ currentLevel = 1 }: Props) => {
     <svg viewBox="0 0 280 64" width="280px" height="64px" className="mx-auto">
       <defs>
         <linearGradient id="gradient">
-          <stop offset="0%" stop-color="#79ACE6" />
-          <stop offset="100%" stop-color="#79E684" />
+          <stop offset="0%" stopColor="#79ACE6" />
+          <stop offset="100%" stopColor="#79E684" />
         </linearGradient>
       </defs>
       <mask id="mask">
@@ -47,7 +47,7 @@ const GenerationProgressBar = ({ currentLevel = 1 }: Props) => {
       <text
         x="44"
         y="48"
-        text-anchor="middle"
+        textAnchor="middle"
         className={classNames(
           'font-secondary text-xs fill-muted transition-colors duration-500',
           {
@@ -61,7 +61,7 @@ const GenerationProgressBar = ({ currentLevel = 1 }: Props) => {
       <text
         x="50%"
         y="48"
-        text-anchor="middle"
+        textAnchor="middle"
         className={classNames(
           'font-secondary text-xs fill-muted transition-colors duration-500',
           {
@@ -75,7 +75,7 @@ const GenerationProgressBar = ({ currentLevel = 1 }: Props) => {
       <text
         x="236"
         y="48"
-        text-anchor="middle"
+        textAnchor="middle"
         className={classNames(
           'font-secondary text-xs fill-muted transition-colors duration-500',
           {

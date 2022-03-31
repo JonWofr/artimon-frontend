@@ -19,7 +19,7 @@ const GenerationFirstSlide = ({ onClickGenerateButton }: Props) => {
         subtitle="Generation"
       />
       <SectionBody className="flex flex-col gap-8">
-        <div className="relative max-w-xs mx-auto after:absolute after:inset-0 after:bg-black/60 after:rounded-2xl">
+        <div className="max-w-xs mx-auto brightness-50">
           <ArtimonCard artimon={artimons[0]} />
         </div>
         <div className="space-y-6">
