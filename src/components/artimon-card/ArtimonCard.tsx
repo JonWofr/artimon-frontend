@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import RainDropIcon from '../../assets/icons/rain-drop-icon.svg';
 import FlameIcon from '../../assets/icons/flame-icon.svg';
 import LeafIcon from '../../assets/icons/leaf-icon.svg';
+import { ArtimonType } from '../../enums/ArtimonType';
 
 interface Props {
   artimon: Artimon;
@@ -16,9 +17,9 @@ const ArtimonCard = ({ artimon, className }: Props) => {
       className={classNames(
         'p-6 rounded-2xl bg-gradient-to-b space-y-3',
         {
-          'from-fireFrom to-fireTo': artimon.type === 'fire',
-          'from-waterFrom to-waterTo': artimon.type === 'water',
-          'from-leafFrom to-leafTo': artimon.type === 'leaf',
+          'from-fireFrom to-fireTo': artimon.type === ArtimonType.FIRE,
+          'from-waterFrom to-waterTo': artimon.type === ArtimonType.WATER,
+          'from-leafFrom to-leafTo': artimon.type === ArtimonType.LEAF,
         },
         className
       )}

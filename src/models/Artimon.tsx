@@ -1,6 +1,8 @@
+import { ArtimonType } from '../enums/ArtimonType';
+
 export interface Artimon {
   name: string;
-  type: 'fire' | 'water' | 'leaf';
+  type: ArtimonType;
   description: string;
   avatarUrl: string;
   trainer?: string;

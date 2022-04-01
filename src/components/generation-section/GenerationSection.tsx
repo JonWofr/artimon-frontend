@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import GenerationFirstSlide from '../generation-first-slide';
 import GenerationProgressBar from '../generation-progress-bar';
 import GenerationSecondSlide from '../generation-second-slide';
 import Section from '../section';
 import { ReactComponent as ArrowRightIcon } from '../../assets/icons/arrow-right-icon.svg';
 import Button from '../button';
-import { artimons } from '../../assets/raw/artimons';
 import Spinner from '../spinner';
 import MintingFirstSlide from '../minting-first-slide';
 import MintingSecondSlide from '../minting-second-slide';
@@ -13,12 +12,28 @@ import ResultSlide from '../result-slide';
 import { ReactComponent as RefreshIcon } from '../../assets/icons/refresh-icon.svg';
 import classNames from 'classnames';
 import { Artimon } from '../../models/Artimon';
+import * as tf from '@tensorflow/tfjs';
+import * as ArtimonGeneration from '../../services/artimon-generation-service';
 
 const GenerationSection = () => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [shouldShowSpinner, setShouldShowSpinner] = useState(false);
   const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(true);
   const [generatedArtimon, setGeneratedArtimon] = useState<Artimon>();
+  const [generatorModel, setGeneratorModel] = useState<tf.LayersModel>();
+
+  useEffect(() => {
+    loadGeneratorModel();
+  }, []);
+
+  const loadGeneratorModel = async () => {
+    setShouldShowSpinner(true);
+    const generatorModel = await tf.loadLayersModel(
+      '/assets/generator-model/model.json'
+    );
+    setGeneratorModel(generatorModel);
+    setShouldShowSpinner(false);
+  };
 
   const getCurrentLevel = () => {
     if (currentSlideIndex <= 1) {
@@ -30,18 +45,14 @@ const GenerationSection = () => {
   };
 
   const onClickGenerateButton = async () => {
-    setShouldShowSpinner(true);
     await generateArtimon();
-    setShouldShowSpinner(false);
     setIsNextButtonDisabled(false);
     nextSlide();
   };
 
   const onClickGenerateAgainButton = async () => {
     setIsNextButtonDisabled(true);
-    setShouldShowSpinner(true);
     await generateArtimon();
-    setShouldShowSpinner(false);
     setIsNextButtonDisabled(false);
   };
 
@@ -63,14 +74,19 @@ const GenerationSection = () => {
   };
 
   const generateArtimon = async () => {
-    await timeout(2000);
-    setGeneratedArtimon(artimons[Math.floor(Math.random() * artimons.length)]);
-  };
-
-  const timeout = (ms: number) => {
-    return new Promise((resolve) => {
-      setTimeout(resolve, ms);
-    });
+    try {
+      setShouldShowSpinner(true);
+      if (!generatorModel)
+        throw new Error(
+          "Can't generate Artimon. Generator model is undefined."
+        );
+      const generatedArtimon = await ArtimonGeneration.generate(generatorModel);
+      setGeneratedArtimon(generatedArtimon);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setShouldShowSpinner(false);
+    }
   };
 
   const nextSlide = () => {
@@ -82,7 +98,9 @@ const GenerationSection = () => {
   };
 
   const mintNFT = async () => {
-    await timeout(2000);
+    await new Promise((resolve) => {
+      setTimeout(resolve, 2000);
+    });
   };
 
   const slides = [
