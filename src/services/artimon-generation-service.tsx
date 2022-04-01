@@ -2,6 +2,7 @@ import { Artimon } from '../models/Artimon';
 import Jabber from 'jabber';
 import { ArtimonType } from '../enums/ArtimonType';
 import * as tf from '@tensorflow/tfjs';
+import * as descriptionData from '../assets/raw/artimon-description-data';
 
 export const generate = async (
   generatorModel: tf.LayersModel
@@ -10,23 +11,43 @@ export const generate = async (
   const avatar = generateAvatar(generatorModel);
   const meanPixelRGB = calcMeanRGBValue(avatar);
   const type = generateType(meanPixelRGB);
+  const description = generateDescription(name, type);
   const avatarURL = parseAvatarURL(avatar);
   return {
     name,
     type,
-    description:
-      'Ad id exercitation pariatur dolor proident mollit non duis sint nisi in pariatur enim ea. Ullamco amet laboris ut ad. Incididunt magna in ullamco eiusmod nostrud sunt officia magna nisi aute nostrud commodo.',
+    description,
     avatarUrl: avatarURL,
   };
 };
 
 const generateName = (minLength = 5, maxLength = 10) => {
-  let length = Math.floor(Math.random() * (maxLength + 1));
+  let length = randomNumber(maxLength + 1);
   while (length < minLength) {
-    length = Math.floor(Math.random() * (maxLength + 1));
+    length = randomNumber(maxLength + 1);
   }
   const jabber = new Jabber();
   return jabber.createWord(length, true);
+};
+
+const randomNumber = (to: number) => {
+  return Math.floor(Math.random() * to);
+};
+
+const generateDescription = (name: string, type: ArtimonType) => {
+  const habitatSentence = `${name} usually lives ${
+    descriptionData.habitat[type][randomNumber(5)]
+  }.`;
+  const dietSentence = `Its diet is mostly ${
+    descriptionData.dietType[type]
+  } and it particularly likes to devour ${
+    descriptionData.diets[type][randomNumber(5)]
+  }.`;
+  const traitsSentence = `Out of all of ${name}'s traits the one that stands out the most is that it is extremely ${
+    descriptionData.traits[type][randomNumber(5)]
+  }.`;
+  const description = `${habitatSentence} ${dietSentence} ${traitsSentence}`;
+  return description;
 };
 
 const generateAvatar = (generatorModel: tf.LayersModel) => {
