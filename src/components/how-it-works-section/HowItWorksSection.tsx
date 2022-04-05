@@ -1,30 +1,30 @@
-import React from 'react';
-import HowItWorksItemModel from '../../models/HotItWorksItem';
-import HowItWorksItem from '../how-it-works-item';
-import SectionHeader from '../section-header';
-import GearIconAccent from '../../assets/icons/gear-icon-accent.svg';
-import PickaxeIcon from '../../assets/icons/pickaxe-icon.svg';
-import KeyIcon from '../../assets/icons/key-icon.svg';
-import SectionBody from '../section-body';
-import Section from '../section';
+import React from "react";
+import HowItWorksItemModel from "../../models/HowItWorksItem";
+import HowItWorksItem from "../how-it-works-item";
+import SectionHeader from "../section-header";
+import GearIconAccent from "../../assets/icons/gear-icon-accent.svg";
+import PickaxeIcon from "../../assets/icons/pickaxe-icon.svg";
+import KeyIcon from "../../assets/icons/key-icon.svg";
+import SectionBody from "../section-body";
+import Section from "../section";
 
 const items: HowItWorksItemModel[] = [
   {
-    title: 'Artimon generation',
+    title: "Artimon generation",
     description:
-      'Our AI generates a new, previously unseen Artimon in real time with a click of a button.',
+      "Our AI generates a new, previously unseen Artimon in real time with a click of a button.",
     iconUrl: GearIconAccent,
   },
   {
-    title: 'NFT minting',
+    title: "NFT minting",
     description:
       "If you're happy with the Artimon our AI generated for you you can mint it as an NFT which brings the Pokémon onto the blockchain where it lives forever.",
     iconUrl: PickaxeIcon,
   },
   {
-    title: 'True ownership',
+    title: "True ownership",
     description:
-      'You are the only and true owner of your newly generated and minted Artimon.',
+      "You are the only and true owner of your newly generated and minted Artimon.",
     iconUrl: KeyIcon,
   },
 ];
