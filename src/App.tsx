@@ -6,12 +6,11 @@ import Header from './components/header';
 import Hero from './components/hero';
 import HowItWorksSection from './components/how-it-works-section';
 import MetaMaskOnboarding from '@metamask/onboarding';
-import { MetaMaskInpageProvider } from '@metamask/providers';
 import { Web3Context as Web3ContextModel } from './models/Web3Context';
 
 declare global {
   interface Window {
-    ethereum: MetaMaskInpageProvider;
+    ethereum: any;
   }
 }
 

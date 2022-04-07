@@ -15,7 +15,7 @@ const GenerationFirstSlide = ({ onClickGenerateButton }: Props) => {
   return (
     <Slide>
       <SectionHeader
-        title="Generate a brandnew artimon"
+        title="Generate a brand new Artimon"
         subtitle="Generation"
       />
       <SectionBody className="flex flex-col gap-8 md:max-w-screen-md md:mx-auto md:flex-row md:items-center md:gap-12">

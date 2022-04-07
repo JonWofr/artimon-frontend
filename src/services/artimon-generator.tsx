@@ -9,8 +9,7 @@ export const generate = async (
 ): Promise<Artimon> => {
   const name = generateName();
   const avatar = generateAvatar(generatorModel);
-  const meanPixelRGB = calcMeanRGBValue(avatar);
-  const type = generateType(meanPixelRGB);
+  const type = generateType(avatar);
   const description = generateDescription(name, type);
   const avatarURL = parseAvatarURL(avatar);
   return {
@@ -64,6 +63,14 @@ const generateAvatar = (generatorModel: tf.LayersModel) => {
   return avatar;
 };
 
+const generateType = (avatar: tf.Tensor4D): ArtimonType => {
+  const meanRGBValue = calcMeanRGBValue(avatar);
+  const predominantChannelIndex = meanRGBValue.indexOf(
+    Math.max(...meanRGBValue)
+  );
+  return Object.values(ArtimonType)[predominantChannelIndex];
+};
+
 const calcMeanRGBValue = (avatar: tf.Tensor4D) => {
   const meanRGBValue = tf
     .mean<tf.Tensor2D>(tf.mean<tf.Tensor3D>(avatar, 1), 1)
@@ -71,13 +78,6 @@ const calcMeanRGBValue = (avatar: tf.Tensor4D) => {
     .flatten()
     .arraySync();
   return meanRGBValue;
-};
-
-const generateType = (meanRGBValue: number[]): ArtimonType => {
-  const predominantChannelIndex = meanRGBValue.indexOf(
-    Math.max(...meanRGBValue)
-  );
-  return Object.values(ArtimonType)[predominantChannelIndex];
 };
 
 const parseAvatarURL = (avatar: tf.Tensor4D) => {
@@ -98,22 +98,21 @@ const addAlphaChannel = (
   width: number,
   height: number
 ) => {
-  const flattenedRGBA = new Uint8Array(width * height * 4);
+  const flattenedRGBA = [];
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
-      const oldIndex = (y * width + x) * 3;
+      const index = (y * width + x) * 3;
       // Additional alpha channel must be included
-      const newIndex = (y * width + x) * 4;
-      flattenedRGBA[newIndex] = flattenedRGB[oldIndex];
-      flattenedRGBA[newIndex + 1] = flattenedRGB[oldIndex + 1];
-      flattenedRGBA[newIndex + 2] = flattenedRGB[oldIndex + 2];
-      flattenedRGBA[newIndex + 3] = 255;
+      flattenedRGBA.push(flattenedRGB[index]);
+      flattenedRGBA.push(flattenedRGB[index + 1]);
+      flattenedRGBA.push(flattenedRGB[index + 2]);
+      flattenedRGBA.push(255);
     }
   }
   return flattenedRGBA;
 };
 
-const parseDataURL = (data: Uint8Array, width: number, height: number) => {
+const parseDataURL = (data: number[], width: number, height: number) => {
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
 
