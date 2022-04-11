@@ -17,7 +17,6 @@ declare global {
 export const Web3Context = createContext<Web3ContextModel>({
   hasInitialisedWeb3: false,
   hasMetamask: false,
-  isInstallingMetamask: false,
   account: undefined,
   isRightChain: false,
   onClickInstallMetamaskButton: () => {},
@@ -28,7 +27,6 @@ export const Web3Context = createContext<Web3ContextModel>({
 const App = () => {
   const [hasInitialisedWeb3, setHasInitialisedWeb3] = useState(false);
   const [hasMetamask, setHasMetamask] = useState(false);
-  const [isInstallingMetamask, setIsInstallingMetamask] = useState(false);
   const [account, setAccount] = useState(undefined);
   const [isRightChain, setIsRightChain] = useState(false);
 
@@ -40,29 +38,43 @@ const App = () => {
     initWeb3()
       .then(() => setHasInitialisedWeb3(true))
       .catch((error) => console.error(error));
+    return () => {
+      removeEventListeners();
+    };
   }, []);
 
   const initWeb3 = async () => {
-    const hasMetamask = isMetamaskInstalled();
-    if (!hasMetamask) {
-      console.warn('MetaMask is not installed');
-      return;
+    await runCheck(1);
+    if (isMetamaskInstalled()) {
+      addEventListeners();
     }
-    setHasMetamask(hasMetamask);
+  };
 
-    const account = await getConnectedAccount();
-    if (!account) {
-      console.warn('MetaMask is not connected');
-      return;
+  const runCheck = async (startLevel: 1 | 2 | 3) => {
+    console.log('running check from level ' + startLevel);
+    if (startLevel === 1) {
+      const hasMetamask = isMetamaskInstalled();
+      setHasMetamask(hasMetamask);
+      if (!hasMetamask) {
+        console.warn('MetaMask is not installed');
+        return;
+      }
     }
-    setAccount(account);
+
+    if (startLevel < 3) {
+      const account = await getConnectedAccount();
+      setAccount(account);
+      if (!account) {
+        console.warn('MetaMask is not connected');
+        return;
+      }
+    }
 
     const isRightChain = await isConnectedToTheRightChain(chainId);
+    setIsRightChain(isRightChain);
     if (!isRightChain) {
       console.warn('MetaMask is connected to a wrong chain');
-      return;
     }
-    setIsRightChain(isRightChain);
   };
 
   const isMetamaskInstalled = () => {
@@ -79,21 +91,49 @@ const App = () => {
   const isConnectedToTheRightChain = async (chainId: string) => {
     let connectedChainId = await ethereum.request({ method: 'eth_chainId' });
 
-    // Rinkeby test network chainId
     return connectedChainId === chainId;
   };
 
+  const addEventListeners = () => {
+    ethereum.on('accountsChanged', onAccountsChanged);
+    ethereum.on('chainChanged', onChainChanged);
+    ethereum.on('disconnect', onDisconnect);
+    ethereum.on('connect', onConnect);
+  };
+
+  const removeEventListeners = () => {
+    ethereum.removeListener('accountsChanged', onAccountsChanged);
+    ethereum.removeListener('chainChanged', onChainChanged);
+    ethereum.removeListener('disconnect', onDisconnect);
+  };
+
+  const onAccountsChanged = async () => {
+    console.log('accounts changed');
+    runCheck(2);
+  };
+
+  const onChainChanged = async () => {
+    console.log('chain changed');
+    runCheck(3);
+  };
+
+  const onDisconnect = () => {
+    console.error('MetaMask disconnected');
+    runCheck(1);
+  };
+
+  const onConnect = () => {
+    console.log('on conneect');
+  };
+
   const onClickInstallMetamaskButton = () => {
-    installMetaMask();
+    const onboarding = new MetaMaskOnboarding();
+    onboarding.startOnboarding();
   };
 
   const onClickConnectWalletButton = async () => {
     try {
-      const account = await connectAccount();
-      setAccount(account);
-
-      const isRightChain = await isConnectedToTheRightChain(chainId);
-      setIsRightChain(isRightChain);
+      await connectAccount();
     } catch (error) {
       console.error(error);
     }
@@ -102,23 +142,15 @@ const App = () => {
   const onClickChangeChainButton = async () => {
     try {
       await changeChain(chainId);
-      setIsRightChain(true);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const installMetaMask = () => {
-    const onboarding = new MetaMaskOnboarding();
-    onboarding.startOnboarding();
-    setIsInstallingMetamask(true);
-  };
-
   const connectAccount = async () => {
-    const accounts = await ethereum.request({
+    await ethereum.request({
       method: 'eth_requestAccounts',
     });
-    return (accounts as any)[0];
   };
 
   const changeChain = async (chainId: string) => {
@@ -153,7 +185,6 @@ const App = () => {
       value={{
         hasInitialisedWeb3,
         hasMetamask,
-        isInstallingMetamask,
         account,
         isRightChain,
         onClickInstallMetamaskButton,

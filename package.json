@@ -15,7 +15,7 @@
     "classnames": "^2.3.1",
     "ethereum-blockies": "^0.1.1",
     "ethers": "^5.6.2",
-    "ipfs-core": "^0.14.2",
+    "ipfs-http-client": "^56.0.2",
     "jabber": "^1.4.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

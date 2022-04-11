@@ -11,7 +11,6 @@ const Header = () => {
   const {
     hasInitialisedWeb3,
     hasMetamask,
-    isInstallingMetamask,
     isRightChain,
     account,
     onClickInstallMetamaskButton,
@@ -23,13 +22,10 @@ const Header = () => {
     if (!hasMetamask) {
       return (
         <Button
-          label={
-            isInstallingMetamask ? 'Installing Metamask...' : 'Install MetaMask'
-          }
+          label={'Install MetaMask'}
           Icon={MetaMaskIcon}
           type="inverted-secondary"
           onClick={onClickInstallMetamaskButton}
-          isDisabled={isInstallingMetamask}
         />
       );
     }

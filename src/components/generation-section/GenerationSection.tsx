@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import GenerationFirstSlide from '../generation-first-slide';
 import GenerationProgressBar from '../generation-progress-bar';
 import GenerationSecondSlide from '../generation-second-slide';
@@ -15,25 +15,15 @@ import { Artimon } from '../../models/Artimon';
 import * as tf from '@tensorflow/tfjs';
 import * as artimonGenerator from '../../services/artimon-generator';
 import { ethers } from 'ethers';
-import { Web3Context } from '../../App';
 import ArtimonContract from '../../utils/Artimon.json';
 import * as ipfsHelper from '../../services/ipfs-helper';
 
 const GenerationSection = () => {
-  const {
-    hasInitialisedWeb3,
-    hasMetamask,
-    isInstallingMetamask,
-    account,
-    isRightChain,
-  } = useContext(Web3Context);
-
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [shouldShowSpinner, setShouldShowSpinner] = useState(false);
   const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(true);
   const [generatedArtimon, setGeneratedArtimon] = useState<Artimon>();
   const [generatorModel, setGeneratorModel] = useState<tf.LayersModel>();
-  const [artimonBlob, setArtimonBlob] = useState<Blob>();
 
   const CONTRACT_ADDRESS = '0x5F492f4D8b09AADeA7a2Ca841fFd37E8518d10e7';
 
@@ -76,12 +66,18 @@ const GenerationSection = () => {
   };
 
   const onClickMintButton = async () => {
-    if (!generatedArtimon) return;
-    setShouldShowSpinner(true);
-    await mintNFT(generatedArtimon);
-    setShouldShowSpinner(false);
-    nextSlide();
-    setIsNextButtonDisabled(false);
+    try {
+      setShouldShowSpinner(true);
+      if (!generatedArtimon)
+        throw new Error("Can't mint. No Artimon has been generated before.");
+      await mintNFT(generatedArtimon);
+      nextSlide();
+      setIsNextButtonDisabled(false);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setShouldShowSpinner(false);
+    }
   };
 
   const onClickNextButton = () => {
@@ -118,44 +114,54 @@ const GenerationSection = () => {
   };
 
   const mintNFT = async (generatedArtimon: Artimon) => {
-    try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-      const artimonContract = new ethers.Contract(
-        CONTRACT_ADDRESS,
-        ArtimonContract.abi,
-        signer
-      );
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const artimonContract = new ethers.Contract(
+      CONTRACT_ADDRESS,
+      ArtimonContract.abi,
+      signer
+    );
 
-      const generatedArtimonAvatarBlob = parseBlob(
-        generatedArtimon.avatarUrl,
-        'image/png'
-      );
-      const result = await ipfsHelper.uploadFile(
-        generatedArtimonAvatarBlob,
-        `${generatedArtimon.name}.png`
-      );
-      console.log({ ...result, cid: result.cid.toString() });
+    const transferEventFilter = artimonContract.filters.Transfer(
+      ethers.constants.AddressZero
+    );
+    const mintEvents = await artimonContract.queryFilter(transferEventFilter);
+    Promise.all(
+      mintEvents.map(
+        async (mintEvent) =>
+          await artimonContract.tokenURI(mintEvent.args!.tokenId)
+      )
+    ).then((tokenURIs) => tokenURIs.map((tokenUri) => console.log(tokenUri)));
+    return;
 
-      // const json = JSON.stringify({
-      //   name: generatedArtimon.name,
-      //   description: generatedArtimon.description,
-      //   image:
-      // });
-      // const encodedJson = btoa(json);
+    const generatedArtimonAvatarBlob = parseBlob(
+      generatedArtimon.avatarUrl,
+      'image/png'
+    );
+    const { cid: avatarCid } = await ipfsHelper.uploadFile(
+      generatedArtimonAvatarBlob
+    );
 
-      // const tokenURI = `data:application/json;base64,${encodedJson}`;
-      // let nftTxn = await artimonContract.makeNFT(tokenURI);
+    const json = JSON.stringify({
+      name: generatedArtimon.name,
+      description: generatedArtimon.description,
+      image: `ipfs://${avatarCid.toString()}`,
+    });
 
-      // console.log('Mining...please wait.');
-      // await nftTxn.wait();
+    const jsonBlob = new Blob([json], { type: 'application/json' });
+    const { cid: jsonCid } = await ipfsHelper.uploadFile(jsonBlob);
 
-      // console.log(
-      //   `Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`
-      // );
-    } catch (error) {
-      console.log(error);
-    }
+    const nftURI = `ipfs://${jsonCid.toString()}`;
+    console.log(`NFT metadata stored at: ${nftURI}`);
+
+    let nftTxn = await artimonContract.makeNFT(nftURI);
+
+    console.log('Mining...please wait.');
+    await nftTxn.wait();
+
+    console.log(
+      `Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`
+    );
   };
 
   const parseBlob = (dataURL: string, type: string) => {
