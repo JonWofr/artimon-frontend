@@ -4,11 +4,17 @@ import { ArtimonType } from '../enums/ArtimonType';
 import * as tf from '@tensorflow/tfjs';
 import * as descriptionData from '../assets/raw/artimon-description-data';
 
-export const generate = async (
-  generatorModel: tf.LayersModel
-): Promise<Artimon> => {
+let generatorModel: tf.LayersModel | undefined;
+
+export const loadModel = async () => {
+  generatorModel = await tf.loadLayersModel(
+    '/assets/generator-model/model.json'
+  );
+};
+
+export const generate = async (): Promise<Artimon> => {
   const name = generateName();
-  const avatar = generateAvatar(generatorModel);
+  const avatar = generateAvatar();
   const type = generateType(avatar);
   const description = generateDescription(name, type);
   const avatarURL = parseAvatarURL(avatar);
@@ -21,35 +27,37 @@ export const generate = async (
 };
 
 const generateName = (minLength = 5, maxLength = 10) => {
-  let length = randomNumber(maxLength + 1);
+  let length = createRandomNumber(maxLength + 1);
   while (length < minLength) {
-    length = randomNumber(maxLength + 1);
+    length = createRandomNumber(maxLength + 1);
   }
   const jabber = new Jabber();
   return jabber.createWord(length, true);
 };
 
-const randomNumber = (to: number) => {
+const createRandomNumber = (to: number) => {
   return Math.floor(Math.random() * to);
 };
 
 const generateDescription = (name: string, type: ArtimonType) => {
   const habitatSentence = `${name} usually lives ${
-    descriptionData.habitat[type][randomNumber(5)]
+    descriptionData.habitat[type][createRandomNumber(5)]
   }.`;
   const dietSentence = `Its diet is mostly ${
     descriptionData.dietType[type]
   } and it particularly likes to devour ${
-    descriptionData.diets[type][randomNumber(5)]
+    descriptionData.diets[type][createRandomNumber(5)]
   }.`;
   const traitsSentence = `Out of all of ${name}'s traits the one that stands out the most is that it is extremely ${
-    descriptionData.traits[type][randomNumber(5)]
+    descriptionData.traits[type][createRandomNumber(5)]
   }.`;
   const description = `${habitatSentence} ${dietSentence} ${traitsSentence}`;
   return description;
 };
 
-const generateAvatar = (generatorModel: tf.LayersModel) => {
+const generateAvatar = () => {
+  if (!generatorModel)
+    throw new Error("Generator model is undefined. Can't generate Artmion!");
   const prediction = generatorModel.predict(
     tf.randomNormal([1, 100], 0, 1)
   ) as tf.Tensor4D;

@@ -1,11 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import SectionBody from '../section-body';
 import SectionHeader from '../section-header';
 import Section from '../section';
 import ArtimonCard from '../artimon-card';
-import { artimons } from '../../assets/raw/artimons';
+import * as artimonContractHelper from '../../services/artimon-contract-helper';
+import { Artimon } from '../../models/Artimon';
 
 const ArtidexSection = () => {
+  const [artimons, setArtimons] = useState<Artimon[]>([]);
+
+  useEffect(() => {
+    onInit();
+  }, []);
+
+  const onInit = async () => {
+    artimonContractHelper.loadContract();
+
+    const artimons = await artimonContractHelper.fetchAllArtimons();
+    setArtimons(artimons);
+  };
+
   return (
     <Section backgroundColor="secondary">
       <SectionHeader title="All the Artimons at a glance" subtitle="Artidex" />

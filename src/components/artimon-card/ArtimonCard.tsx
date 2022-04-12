@@ -5,6 +5,7 @@ import RainDropIcon from '../../assets/icons/rain-drop-icon.svg';
 import FlameIcon from '../../assets/icons/flame-icon.svg';
 import LeafIcon from '../../assets/icons/leaf-icon.svg';
 import { ArtimonType } from '../../enums/ArtimonType';
+import { CONTRACT_ADDRESS } from '../../services/artimon-contract-helper';
 
 interface Props {
   artimon: Artimon;
@@ -34,9 +35,19 @@ const ArtimonCard = ({ artimon, className }: Props) => {
           <p className="font-secondary font-bold  text-xs tracking-widest uppercase text-secondary">
             {artimon.type}
           </p>
-          <h3 className="font-primary font-bold text-xl text-primary underline">
-            {artimon.name}
-          </h3>
+          {artimon.tokenId ? (
+            <a
+              className="font-primary font-bold text-xl text-primary underline"
+              href={`https://testnets.opensea.io/assets/${CONTRACT_ADDRESS}/${artimon.tokenId}`}
+              target="_blank"
+            >
+              {artimon.name}
+            </a>
+          ) : (
+            <h3 className="font-primary font-bold text-xl text-primary">
+              {artimon.name}
+            </h3>
+          )}
         </div>
         <img
           src={
@@ -52,9 +63,13 @@ const ArtimonCard = ({ artimon, className }: Props) => {
       {artimon.trainer && (
         <p className="font-secondary text-secondary text-xs">
           Trainer:{' '}
-          <span className="underline break-all lining-nums">
+          <a
+            className="underline break-all lining-nums"
+            href={`https://testnets.opensea.io/${artimon.trainer}`}
+            target="_blank"
+          >
             {artimon.trainer}
-          </span>
+          </a>
         </p>
       )}
     </article>

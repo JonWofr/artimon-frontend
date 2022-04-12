@@ -14,6 +14,7 @@ export const artimons: Artimon[] = [
       'Enim irure magna aliqua voluptate proident. Fugiat aliqua elit nulla cupidatat excepteur ea adipisicing reprehenderit proident. In officia ex adipisicing culpa.',
     avatarUrl: Gerodolon,
     trainer: '0x04f1737124AF05f9CAF0Aa7819267bC2BEC1c29c',
+    tokenId: '1',
   },
   {
     name: 'Barlow',
@@ -22,6 +23,7 @@ export const artimons: Artimon[] = [
       'Incididunt cupidatat nisi exercitation dolor quis. Ipsum aliqua veniam non ut dolor dolore quis culpa minim aute. In labore ad magna minim quis amet in.',
     avatarUrl: Barlow,
     trainer: '0x04f1737124AF05f9CAF0Aa7819267bC2BEC1c29c',
+    tokenId: '2',
   },
   {
     name: 'Quacksal',
@@ -30,21 +32,6 @@ export const artimons: Artimon[] = [
       'Non laborum reprehenderit id mollit sit est occaecat. Consequat magna culpa exercitation officia eu. Ex ad ea mollit veniam velit reprehenderit adipisicing.',
     avatarUrl: Quacksal,
     trainer: '0x04f1737124AF05f9CAF0Aa7819267bC2BEC1c29c',
-  },
-  {
-    name: 'Herndu',
-    type: ArtimonType.WATER,
-    description:
-      'Sit adipisicing enim amet ut labore exercitation officia enim sunt. Eu labore excepteur consequat deserunt laboris amet culpa commodo. Enim laboris incididunt mollit duis culpa minim dolore velit nulla magna ut dolor sit.',
-    avatarUrl: Herndu,
-    trainer: '0x04f1737124AF05f9CAF0Aa7819267bC2BEC1c29c',
-  },
-  {
-    name: 'Kramurk',
-    type: ArtimonType.LEAF,
-    description:
-      'Mollit consequat do anim magna laboris adipisicing. Cupidatat veniam consectetur laboris laboris exercitation do eiusmod officia. Ex quis aliquip consequat do consectetur labore.',
-    avatarUrl: Kramurk,
-    trainer: '0x04f1737124AF05f9CAF0Aa7819267bC2BEC1c29c',
+    tokenId: '3',
   },
 ];

@@ -6,4 +6,5 @@ export interface Artimon {
   description: string;
   avatarUrl: string;
   trainer?: string;
+  tokenId?: string;
 }

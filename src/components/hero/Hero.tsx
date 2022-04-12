@@ -9,7 +9,7 @@ const Hero = () => {
   return (
     <Section>
       <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between md:gap-16">
-        <div className="relative w-full max-w-[400px] mx-auto h-72 md:max-w-[500px] md:mx-0 md:order-2 md:h-[500px] md:flex-1">
+        <div className="relative w-full max-w-[400px] mx-auto h-72 md:max-w-[500px] md:mx-0 md:order-2 md:h-[500px] md:flex-1 pointer-events-none">
           <ArtimonCard
             artimon={artimons[0]}
             className="absolute w-full max-w-[300px] top-1/2 left-0 -translate-y-[70%] scale-75 origin-bottom-left animate-fist-artimon-card md:scale-100"
