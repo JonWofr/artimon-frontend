@@ -1,5 +1,5 @@
 export enum ArtimonType {
   'FIRE' = 'fire',
-  'LEAF' = 'leaf',
+  'GRASS' = 'grass',
   'WATER' = 'water',
 }

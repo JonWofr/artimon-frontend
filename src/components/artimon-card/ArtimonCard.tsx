@@ -20,7 +20,7 @@ const ArtimonCard = ({ artimon, className }: Props) => {
         {
           'from-fireFrom to-fireTo': artimon.type === ArtimonType.FIRE,
           'from-waterFrom to-waterTo': artimon.type === ArtimonType.WATER,
-          'from-leafFrom to-leafTo': artimon.type === ArtimonType.LEAF,
+          'from-grassFrom to-grassTo': artimon.type === ArtimonType.GRASS,
         },
         className
       )}
@@ -52,7 +52,7 @@ const ArtimonCard = ({ artimon, className }: Props) => {
         </div>
         <img
           src={
-            { fire: FlameIcon, water: RainDropIcon, leaf: LeafIcon }[
+            { fire: FlameIcon, water: RainDropIcon, grass: LeafIcon }[
               artimon.type
             ]
           }

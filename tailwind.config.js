@@ -22,8 +22,8 @@ module.exports = {
         fireTo: '#E67979',
         waterFrom: '#79A5E6',
         waterTo: '#A979E6',
-        leafFrom: '#B5BF40',
-        leafTo: '#40BF73',
+        grassFrom: '#B5BF40',
+        grassTo: '#40BF73',
       },
       animation: {
         'fade-in': 'fade-in .5s ease-in-out',

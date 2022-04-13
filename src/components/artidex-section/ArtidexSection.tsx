@@ -43,7 +43,9 @@ const ArtidexSection = () => {
         artimons.find((artimon) => artimon.tokenId === newArtimon.tokenId) ===
         undefined;
       if (isTruelyNew) {
-        setArtimons([newArtimon, ...artimons]);
+        setArtimons((artimons) => {
+          return [newArtimon, ...artimons];
+        });
       }
     });
   };
@@ -68,7 +70,7 @@ const ArtidexSection = () => {
                     <ArtimonCard key={artimon.name} artimon={artimon} />
                   ))}
           </div>
-          {artimons.length > 0 && (
+          {artimons.length > 7 && (
             <button
               onClick={toggleIsExpanded}
               className="flex gap-2 items-center mt-12"

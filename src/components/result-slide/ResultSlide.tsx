@@ -17,7 +17,7 @@ const ResultSlide = ({ artimon }: Props) => {
         <div className="max-w-xs mx-auto md:max-w-none md:mx-0 md:flex-1">
           <ArtimonCard artimon={artimon} />
         </div>
-        <div className="text-secondary font-secondary text-center space-y-6 md:flex-1 md:text-left">
+        <div className="text-secondary font-secondary text-center space-y-4 md:flex-1 md:text-left">
           <p>
             By clicking on the{' '}
             <span className="font-bold">underlined name</span> of any minted
@@ -27,6 +27,12 @@ const ResultSlide = ({ artimon }: Props) => {
             By clicking on the{' '}
             <span className="font-bold">trainer address</span> that trainer and
             its Artimons are shown on OpenSea.
+          </p>
+          <p>
+            It can take a while until the content is correctly displayed on
+            OpenSea. However your Artimon already got an{' '}
+            <span className="font-bold">entry inside the Artidex</span> down
+            below!
           </p>
         </div>
       </SectionBody>

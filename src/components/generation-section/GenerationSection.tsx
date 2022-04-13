@@ -18,9 +18,10 @@ import { ProviderType } from '../../enums/ProviderType';
 
 const GenerationSection = () => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-  const [shouldShowSpinner, setShouldShowSpinner] = useState(false);
   const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(true);
   const [generatedArtimon, setGeneratedArtimon] = useState<Artimon>();
+  const [shouldShowSpinner, setShouldShowSpinner] = useState(false);
+  const [spinnerNote, setSpinnerNote] = useState('');
 
   useEffect(() => {
     try {
@@ -31,9 +32,16 @@ const GenerationSection = () => {
   }, []);
 
   const onInit = async () => {
-    setShouldShowSpinner(true);
-    await artimonGenerator.loadModel();
-    setShouldShowSpinner(false);
+    try {
+      setShouldShowSpinner(true);
+      setSpinnerNote('Generator warming up.\nThis might take a while...');
+      await artimonGenerator.loadModel();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setShouldShowSpinner(false);
+      setSpinnerNote('');
+    }
   };
 
   const getCurrentLevel = () => {
@@ -60,6 +68,7 @@ const GenerationSection = () => {
   const onClickMintButton = async () => {
     try {
       setShouldShowSpinner(true);
+      setSpinnerNote('Minting in progress.\nThis might take a while...');
       if (!generatedArtimon)
         throw new Error("Can't mint. No Artimon has been generated before.");
       const artimonContractHelper = new ArtimonContractHelper(
@@ -75,6 +84,7 @@ const GenerationSection = () => {
       console.error(error);
     } finally {
       setShouldShowSpinner(false);
+      setSpinnerNote('');
     }
   };
 
@@ -143,7 +153,14 @@ const GenerationSection = () => {
           {slides[currentSlideIndex]}
         </div>
         {shouldShowSpinner && (
-          <Spinner className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+          <div className="absolute top-1/2 -translate-y-1/2 inset-x-0">
+            <Spinner />
+            {spinnerNote && (
+              <p className="absolute top-full left-1/2 -translate-x-1/2 font-secondary text-secondary whitespace-pre text-center  mt-4">
+                {spinnerNote}
+              </p>
+            )}
+          </div>
         )}
       </div>
       {currentSlideIndex <= 3 ? (

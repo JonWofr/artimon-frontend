@@ -9,16 +9,16 @@ export const artimons: Artimon[] = [
     name: 'Gerodolon',
     type: ArtimonType.FIRE,
     description:
-      'Enim irure magna aliqua voluptate proident. Fugiat aliqua elit nulla cupidatat excepteur ea adipisicing reprehenderit proident. In officia ex adipisicing culpa.',
+      "Gerodolon usually lives in the steppe. Its diet is mostly meat based and it particularly likes to devour small birds. Out of all of Gerodolon's traits the one that stands out the most is that it is extremely hot heated.",
     avatarUrl: Gerodolon,
     trainer: '0x04f1737124AF05f9CAF0Aa7819267bC2BEC1c29c',
     tokenId: '1',
   },
   {
     name: 'Barlow',
-    type: ArtimonType.LEAF,
+    type: ArtimonType.GRASS,
     description:
-      'Incididunt cupidatat nisi exercitation dolor quis. Ipsum aliqua veniam non ut dolor dolore quis culpa minim aute. In labore ad magna minim quis amet in.',
+      "Sorucomer usually lives in the jungle. Its diet is mostly plant based and it particularly likes to devour seeds. Out of all of Sorucomer's traits the one that stands out the most is that it is extremely omnious.",
     avatarUrl: Barlow,
     trainer: '0x04f1737124AF05f9CAF0Aa7819267bC2BEC1c29c',
     tokenId: '2',
@@ -27,7 +27,7 @@ export const artimons: Artimon[] = [
     name: 'Quacksal',
     type: ArtimonType.WATER,
     description:
-      'Non laborum reprehenderit id mollit sit est occaecat. Consequat magna culpa exercitation officia eu. Ex ad ea mollit veniam velit reprehenderit adipisicing.',
+      "Quacksal usually lives in oceans' depths. Its diet is mostly mixed and it particularly likes to devour algae. Out of all of Quacksal's traits the one that stands out the most is that it is extremely mysterious.",
     avatarUrl: Quacksal,
     trainer: '0x04f1737124AF05f9CAF0Aa7819267bC2BEC1c29c',
     tokenId: '3',

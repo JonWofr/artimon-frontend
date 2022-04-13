@@ -8,7 +8,7 @@ import * as ipfsHelper from './ipfs-helper';
 
 export class ArtimonContractHelper {
   public static readonly CONTRACT_ADDRESS =
-    '0x54Ec6EbeAf004Cb0a128725a330b314EE40c775f';
+    '0xcFAeCe5A49C2AC271bE94a56dee2f311ed3A9307';
   public static readonly NETWORK_ID = 4;
 
   private contract: ethers.Contract;

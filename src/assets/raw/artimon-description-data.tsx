@@ -8,7 +8,7 @@ export const habitat = {
     "near the Earth's core",
     'in the steppe',
   ],
-  [ArtimonType.LEAF]: [
+  [ArtimonType.GRASS]: [
     'in forests',
     'in the jungle',
     'in tall grass',
@@ -26,7 +26,7 @@ export const habitat = {
 
 export const dietType = {
   [ArtimonType.FIRE]: 'meat based',
-  [ArtimonType.LEAF]: 'plant based',
+  [ArtimonType.GRASS]: 'plant based',
   [ArtimonType.WATER]: 'mixed',
 };
 
@@ -38,7 +38,7 @@ export const diets = {
     'small birds',
     'small reptiles',
   ],
-  [ArtimonType.LEAF]: ['nuts', 'seeds', 'roots', 'leafes', 'petals'],
+  [ArtimonType.GRASS]: ['nuts', 'seeds', 'roots', 'leafes', 'petals'],
   [ArtimonType.WATER]: [
     'plankton',
     'seaweed',
@@ -56,7 +56,7 @@ export const traits = {
     'short sighted',
     'dumb',
   ],
-  [ArtimonType.LEAF]: ['slow', 'wise', 'trustworthy', 'reliable', 'omnious'],
+  [ArtimonType.GRASS]: ['slow', 'wise', 'trustworthy', 'reliable', 'omnious'],
   [ArtimonType.WATER]: [
     'intelligent',
     'cheeky',
