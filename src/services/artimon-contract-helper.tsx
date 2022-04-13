@@ -1,118 +1,163 @@
 import { ethers } from 'ethers';
 import { ArtimonType } from '../enums/ArtimonType';
+import { ProviderType } from '../enums/ProviderType';
 import { Artimon } from '../models/Artimon';
 import { NFTMetadata } from '../models/NFTMetadata';
 import Contract from '../utils/Artimon.json';
 import * as ipfsHelper from './ipfs-helper';
 
-export const CONTRACT_ADDRESS = '0x54Ec6EbeAf004Cb0a128725a330b314EE40c775f';
-let contract: ethers.Contract | undefined;
-let provider: ethers.providers.Web3Provider | undefined;
+export class ArtimonContractHelper {
+  public static readonly CONTRACT_ADDRESS =
+    '0x54Ec6EbeAf004Cb0a128725a330b314EE40c775f';
+  public static readonly NETWORK_ID = 4;
 
-export const loadContract = () => {
-  provider = new ethers.providers.Web3Provider(window.ethereum);
-  const signer = provider.getSigner();
-  contract = new ethers.Contract(CONTRACT_ADDRESS, Contract.abi, signer);
-};
+  private contract: ethers.Contract;
 
-export const mintNFT = async (generatedArtimon: Artimon): Promise<Artimon> => {
-  if (!contract) throw new Error("Can't mint NFT. Contract is undefined!");
-
-  const metadataURI = await parseMetadataURI(generatedArtimon);
-  console.log(`NFT metadata stored at: ${metadataURI}`);
-
-  let nftTxn = await contract.makeNFT(metadataURI);
-
-  console.log('Minting...please wait.');
-  const txnReceipt = await nftTxn.wait();
-
-  console.log(
-    `Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`
-  );
-
-  const { to, tokenId } = txnReceipt.events[0].args;
-
-  return {
-    ...generatedArtimon,
-    trainer: to,
-    tokenId,
-  };
-};
-
-const parseMetadataURI = async (artimon: Artimon) => {
-  const avatarBlob = parseBlob(artimon.avatarUrl, 'image/png');
-  const { cid: avatarCid } = await ipfsHelper.uploadFile(avatarBlob);
-
-  const metadata: NFTMetadata = {
-    name: artimon.name,
-    description: artimon.description,
-    image: `ipfs://${avatarCid.toString()}`,
-    attributes: [
-      {
-        trait_type: 'Type',
-        value: artimon.type,
-      },
-    ],
-  };
-
-  const metadataJSON = JSON.stringify(metadata);
-  const metadataBlob = new Blob([metadataJSON], { type: 'application/json' });
-  const { cid: metadataCid } = await ipfsHelper.uploadFile(metadataBlob);
-
-  const metadataURI = `ipfs://${metadataCid.toString()}`;
-  return metadataURI;
-};
-
-const parseBlob = (dataURL: string, type: string) => {
-  const dataString = atob(dataURL.split(',')[1]);
-  const bufferView = new Uint8Array(dataString.length);
-
-  for (let i = 0; i < dataString.length; i++) {
-    bufferView[i] = dataString.charCodeAt(i);
+  constructor(providerType: ProviderType) {
+    switch (providerType) {
+      case ProviderType.META_MASK: {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        this.contract = new ethers.Contract(
+          ArtimonContractHelper.CONTRACT_ADDRESS,
+          Contract.abi,
+          signer
+        );
+        break;
+      }
+      case ProviderType.INFURA: {
+        const provider = new ethers.providers.InfuraProvider(
+          ArtimonContractHelper.NETWORK_ID,
+          process.env.REACT_APP_INFURA_ETHEREUM_PROJECT_ID
+        );
+        this.contract = new ethers.Contract(
+          ArtimonContractHelper.CONTRACT_ADDRESS,
+          Contract.abi,
+          provider
+        );
+        break;
+      }
+      default: {
+        const provider = ethers.providers.getDefaultProvider();
+        this.contract = new ethers.Contract(
+          ArtimonContractHelper.CONTRACT_ADDRESS,
+          Contract.abi,
+          provider
+        );
+      }
+    }
   }
 
-  return new Blob([bufferView], { type });
-};
+  public mintNFT = async (generatedArtimon: Artimon): Promise<Artimon> => {
+    const metadataURI = await this.parseMetadataURI(generatedArtimon);
+    console.log(`NFT metadata stored at: ${metadataURI}`);
 
-export const fetchAllArtimons = async () => {
-  if (!contract)
-    throw new Error("Can't fetch Artimons. Contract is undefined!");
+    let nftTxn = await this.contract.makeNFT(metadataURI);
 
-  const mintEventFilter = contract.filters.Transfer(
-    ethers.constants.AddressZero
-  );
-  const mintEvents = await contract.queryFilter(mintEventFilter);
-  const artimons = await Promise.all(
-    mintEvents.map<Promise<Artimon>>(async (mintEvent) => {
-      const { tokenId } = mintEvent.args!;
-      const [owner, tokenURI] = await Promise.all([
-        contract?.ownerOf(tokenId),
-        contract?.tokenURI(tokenId),
-      ]);
-      const artimon = await parseArtimon(tokenURI);
-      return {
-        ...artimon,
-        trainer: owner,
-        tokenId,
-      };
-    })
-  );
-  return artimons;
-};
+    console.log('Minting...please wait.');
+    const txnReceipt = await nftTxn.wait();
 
-const parseArtimon = async (metadataURI: string): Promise<Artimon> => {
-  const metadataBlob = await ipfsHelper.getFileData(metadataURI.substring(7));
-  const metadataJSON = await metadataBlob.text();
-  const metadata: NFTMetadata = JSON.parse(metadataJSON);
-  console.log(metadata.image);
-  return {
-    name: metadata.name,
-    description: metadata.description,
-    avatarUrl: parseIPFSGatewayURL(metadata.image.substring(7)),
-    type: metadata.attributes ? metadata.attributes[0].value : ArtimonType.FIRE,
+    console.log(
+      `Minted, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`
+    );
+
+    const { to, tokenId } = txnReceipt.events[0].args;
+
+    return {
+      ...generatedArtimon,
+      trainer: to,
+      tokenId,
+    };
   };
-};
 
-const parseIPFSGatewayURL = (cid: string) => {
-  return `https://infura-ipfs.io/ipfs/${cid}`;
-};
+  private parseMetadataURI = async (generatedArtimon: Artimon) => {
+    const avatarBlob = this.parseBlob(generatedArtimon.avatarUrl, 'image/png');
+    const { cid: avatarCid } = await ipfsHelper.uploadFile(avatarBlob);
+
+    const metadata: NFTMetadata = {
+      name: generatedArtimon.name,
+      description: generatedArtimon.description,
+      image: ipfsHelper.parseIPFSURL(avatarCid.toString()),
+      attributes: [
+        {
+          trait_type: 'Type',
+          value: generatedArtimon.type,
+        },
+      ],
+    };
+
+    const metadataJSON = JSON.stringify(metadata);
+    const metadataBlob = new Blob([metadataJSON], { type: 'application/json' });
+    const { cid: metadataCid } = await ipfsHelper.uploadFile(metadataBlob);
+
+    const metadataURI = ipfsHelper.parseIPFSURL(metadataCid.toString());
+    return metadataURI;
+  };
+
+  private parseBlob = (dataURL: string, type: string) => {
+    const dataString = atob(dataURL.split(',')[1]);
+    const bufferView = new Uint8Array(dataString.length);
+
+    for (let i = 0; i < dataString.length; i++) {
+      bufferView[i] = dataString.charCodeAt(i);
+    }
+
+    return new Blob([bufferView], { type });
+  };
+
+  public fetchAllArtimons = async () => {
+    const mintEventFilter = this.contract.filters.Transfer(
+      ethers.constants.AddressZero
+    );
+    const mintEvents = await this.contract.queryFilter(mintEventFilter);
+    const artimons = await Promise.all(
+      mintEvents.map<Promise<Artimon>>(async (mintEvent) => {
+        const { tokenId } = mintEvent.args!;
+        const [owner, tokenURI] = await Promise.all([
+          this.contract.ownerOf(tokenId),
+          this.contract.tokenURI(tokenId),
+        ]);
+        const artimon = await this.parseArtimon(tokenURI);
+        return {
+          ...artimon,
+          trainer: owner,
+          tokenId: tokenId.toNumber(),
+        };
+      })
+    );
+    return artimons;
+  };
+
+  private parseArtimon = async (metadataURI: string): Promise<Artimon> => {
+    const metadataBlob = await ipfsHelper.getFileData(
+      ipfsHelper.parseCid(metadataURI)
+    );
+    const metadataJSON = await metadataBlob.text();
+    const metadata: NFTMetadata = JSON.parse(metadataJSON);
+    return {
+      name: metadata.name,
+      description: metadata.description,
+      avatarUrl: ipfsHelper.parseIPFSGatewayURL(
+        ipfsHelper.parseCid(metadata.image)
+      ),
+      type: metadata.attributes
+        ? metadata.attributes[0].value
+        : ArtimonType.FIRE,
+    };
+  };
+
+  onNewArtimon = (callback: (artimon: Artimon) => void) => {
+    const mintEventFilter = this.contract.filters.Transfer(
+      ethers.constants.AddressZero
+    );
+    this.contract.on(mintEventFilter, async (_, to, tokenId) => {
+      const tokenURI = await this.contract.tokenURI(tokenId);
+      const artimon = await this.parseArtimon(tokenURI);
+      callback({
+        ...artimon,
+        trainer: to,
+        tokenId: tokenId.toNumber(),
+      });
+    });
+  };
+}

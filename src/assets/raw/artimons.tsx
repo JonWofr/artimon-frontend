@@ -2,8 +2,6 @@ import { Artimon } from '../../models/Artimon';
 import Gerodolon from '../../assets/images/pokemon-1.png';
 import Barlow from '../../assets/images/pokemon-2.png';
 import Quacksal from '../../assets/images/pokemon-3.png';
-import Herndu from '../../assets/images/pokemon-4.png';
-import Kramurk from '../../assets/images/pokemon-5.png';
 import { ArtimonType } from '../../enums/ArtimonType';
 
 export const artimons: Artimon[] = [

@@ -42,7 +42,7 @@ const MintingFirstSlide = ({ artimon, onClickMintButton }: Props) => {
             <span className="font-bold">yours by minting it</span>. As soon as
             it's minted it lives on the blockchain and you own it.
           </p>
-          <div>
+          <div className="flex flex-col gap-2 items-center md:items-start">
             <Button
               label="Mint"
               Icon={PickaxeIcon}
@@ -52,7 +52,7 @@ const MintingFirstSlide = ({ artimon, onClickMintButton }: Props) => {
                 !(hasInitialisedWeb3 && hasMetamask && account && isRightChain)
               }
             />
-            <p className="font-secondary font-bold text-xs text-red-500 mt-2">
+            <p className="font-secondary font-bold text-xs text-red-500 text-center md:text-left">
               {hasInitialisedWeb3 && renderNote()}
             </p>
           </div>

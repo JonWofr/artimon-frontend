@@ -13,7 +13,8 @@ import { ReactComponent as RefreshIcon } from '../../assets/icons/refresh-icon.s
 import classNames from 'classnames';
 import { Artimon } from '../../models/Artimon';
 import * as artimonGenerator from '../../services/artimon-generator';
-import * as artimonContractHelper from '../../services/artimon-contract-helper';
+import { ArtimonContractHelper } from '../../services/artimon-contract-helper';
+import { ProviderType } from '../../enums/ProviderType';
 
 const GenerationSection = () => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
@@ -23,16 +24,15 @@ const GenerationSection = () => {
 
   useEffect(() => {
     try {
-      init();
+      onInit();
     } catch (error) {
       console.error(error);
     }
   }, []);
 
-  const init = async () => {
+  const onInit = async () => {
     setShouldShowSpinner(true);
     await artimonGenerator.loadModel();
-    artimonContractHelper.loadContract();
     setShouldShowSpinner(false);
   };
 
@@ -62,6 +62,9 @@ const GenerationSection = () => {
       setShouldShowSpinner(true);
       if (!generatedArtimon)
         throw new Error("Can't mint. No Artimon has been generated before.");
+      const artimonContractHelper = new ArtimonContractHelper(
+        ProviderType.META_MASK
+      );
       const mintedArtimon = await artimonContractHelper.mintNFT(
         generatedArtimon
       );

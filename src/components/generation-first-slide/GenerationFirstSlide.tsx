@@ -19,7 +19,7 @@ const GenerationFirstSlide = ({ onClickGenerateButton }: Props) => {
         subtitle="Generation"
       />
       <SectionBody className="flex flex-col gap-8 md:max-w-screen-md md:mx-auto md:flex-row md:items-center md:gap-12">
-        <div className="max-w-xs mx-auto brightness-50 md:max-w-none md:mx-0 md:flex-1">
+        <div className="max-w-xs mx-auto brightness-50 md:max-w-none md:mx-0 md:flex-1 pointer-events-none">
           <ArtimonCard artimon={artimons[0]} />
         </div>
         <div className="flex flex-col gap-6 items-center md:flex-1 md:items-start">
