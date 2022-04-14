@@ -10,6 +10,7 @@ import * as blockies from 'ethereum-blockies';
 const Header = () => {
   const {
     hasInitialisedWeb3,
+    isMobileOrTablet,
     hasMetamask,
     isRightChain,
     account,
@@ -19,7 +20,7 @@ const Header = () => {
   } = useContext(Web3Context);
 
   const renderHeaderContent = () => {
-    if (!hasMetamask) {
+    if (!hasMetamask && !isMobileOrTablet) {
       return (
         <Button
           label={'Install MetaMask'}
@@ -27,6 +28,17 @@ const Header = () => {
           type="inverted-secondary"
           onClick={onClickInstallMetamaskButton}
         />
+      );
+    }
+    if (!hasMetamask && isMobileOrTablet) {
+      return (
+        <a href={process.env.REACT_APP_META_MASK_DEEP_LINK}>
+          <Button
+            label={'Open MetaMask'}
+            Icon={MetaMaskIcon}
+            type="inverted-secondary"
+          />
+        </a>
       );
     }
     if (!account) {

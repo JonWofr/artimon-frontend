@@ -24,4 +24,4 @@ yarn-debug.log*
 yarn-error.log*
 
 # environment vars
-.env
+.env*

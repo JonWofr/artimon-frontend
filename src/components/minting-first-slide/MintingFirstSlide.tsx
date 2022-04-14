@@ -14,12 +14,20 @@ interface Props {
 }
 
 const MintingFirstSlide = ({ artimon, onClickMintButton }: Props) => {
-  const { hasInitialisedWeb3, hasMetamask, account, isRightChain } =
-    useContext(Web3Context);
+  const {
+    hasInitialisedWeb3,
+    isMobileOrTablet,
+    hasMetamask,
+    account,
+    isRightChain,
+  } = useContext(Web3Context);
 
   const renderNote = () => {
-    if (!hasMetamask) {
+    if (!hasMetamask && !isMobileOrTablet) {
       return 'You need to have MetaMask installed. Click on the button in the header to install MetaMask!';
+    }
+    if (!hasMetamask && isMobileOrTablet) {
+      return "This Dapp only works within the MetaMask app. Click on the button in the header to open the app or initiate installation if you don't have the app yet!";
     }
     if (!account) {
       return 'Your MetaMask wallet has to be connected. Click on the button in the header to connect!';
