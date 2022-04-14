@@ -61,7 +61,7 @@ const Header = () => {
         />
       );
     }
-    const identicon = blockies.create({ seed: account, size: 10 }).toDataURL();
+    const identicon = blockies.toDataUrl(account);
     return (
       <div className="flex items-center gap-4">
         <p className="font-secondary font-bold text-secondary text-xs tracking-widest uppercase leading-none">
