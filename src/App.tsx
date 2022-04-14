@@ -105,6 +105,7 @@ const App = () => {
     ethereum.removeListener('accountsChanged', onAccountsChanged);
     ethereum.removeListener('chainChanged', onChainChanged);
     ethereum.removeListener('disconnect', onDisconnect);
+    ethereum.removeListener('connect', onConnect);
   };
 
   const onAccountsChanged = async () => {

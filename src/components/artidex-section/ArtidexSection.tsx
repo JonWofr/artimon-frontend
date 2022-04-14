@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import SectionBody from '../section-body';
 import SectionHeader from '../section-header';
 import Section from '../section';
-import ArtimonCard from '../artimon-card';
 import { ArtimonContractHelper } from '../../services/artimon-contract-helper';
 import { Artimon } from '../../models/Artimon';
 import { ProviderType } from '../../enums/ProviderType';
 import Spinner from '../spinner';
 import { ReactComponent as ShowMoreIcon } from '../../assets/icons/show-more-icon.svg';
 import { ReactComponent as ShowLessIcon } from '../../assets/icons/show-less-icon.svg';
+import FadeInArtimonCard from '../fade-in-artimon-card';
 
 const ArtidexSection = () => {
   const [artimons, setArtimons] = useState<Artimon[]>([]);
@@ -62,12 +62,12 @@ const ArtidexSection = () => {
           <div className="w-full grid gap-8 grid-cols-[repeat(auto-fit,minmax(350px,1fr))]">
             {isExpanded
               ? artimons.map((artimon) => (
-                  <ArtimonCard key={artimon.name} artimon={artimon} />
+                  <FadeInArtimonCard key={artimon.name} artimon={artimon} />
                 ))
               : artimons
                   .slice(0, 6)
                   .map((artimon) => (
-                    <ArtimonCard key={artimon.name} artimon={artimon} />
+                    <FadeInArtimonCard key={artimon.name} artimon={artimon} />
                   ))}
           </div>
           {artimons.length > 7 && (
