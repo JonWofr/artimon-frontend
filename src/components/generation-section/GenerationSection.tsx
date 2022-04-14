@@ -142,7 +142,7 @@ const GenerationSection = () => {
   ];
 
   return (
-    <Section>
+    <Section id="generation-section">
       <GenerationProgressBar currentLevel={getCurrentLevel()} />
       <div className="relative">
         <div

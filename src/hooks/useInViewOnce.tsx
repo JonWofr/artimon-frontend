@@ -13,7 +13,6 @@ export const useInViewOnce = (
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    console.log(options, ref);
     const observer = new IntersectionObserver(callback, options);
     if (ref.current) observer.observe(ref.current);
     return () => {

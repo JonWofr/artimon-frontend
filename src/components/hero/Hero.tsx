@@ -6,6 +6,12 @@ import Section from '../section';
 import { artimons } from '../../assets/raw/artimons';
 
 const Hero = () => {
+  const onClickGenerateButton = () => {
+    document.getElementById('generation-section')?.scrollIntoView({
+      behavior: 'smooth',
+    });
+  };
+
   return (
     <Section>
       <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between md:gap-16">
@@ -35,9 +41,7 @@ const Hero = () => {
           <Button
             label="Generate"
             Icon={GearIcon}
-            onClick={() => {
-              console.log('hallo');
-            }}
+            onClick={onClickGenerateButton}
           ></Button>
         </div>
       </div>

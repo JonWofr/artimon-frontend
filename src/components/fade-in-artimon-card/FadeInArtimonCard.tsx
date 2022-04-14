@@ -1,6 +1,6 @@
 import React from 'react';
 import { Artimon } from '../../models/Artimon';
-import { useInViewOnce } from '../../utils/useInViewOnce';
+import { useInViewOnce } from '../../hooks/useInViewOnce';
 import ArtimonCard from '../artimon-card';
 import classNames from 'classnames';
 

@@ -4,11 +4,13 @@ import classNames from 'classnames';
 type Props = {
   children: React.ReactNode;
   backgroundColor?: 'primary' | 'secondary';
+  id?: string;
 };
 
-const Section = ({ children, backgroundColor = 'primary' }: Props) => {
+const Section = ({ children, backgroundColor = 'primary', id }: Props) => {
   return (
     <section
+      id={id}
       className={classNames({
         'bg-primary': backgroundColor === 'primary',
         'bg-secondary': backgroundColor === 'secondary',

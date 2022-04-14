@@ -1,5 +1,5 @@
 import React from 'react';
-import { useInViewOnce } from '../../utils/useInViewOnce';
+import { useInViewOnce } from '../../hooks/useInViewOnce';
 import classNames from 'classnames';
 
 type Props = {
