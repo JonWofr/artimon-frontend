@@ -15,7 +15,7 @@ const GenerationFirstSlide = ({ onClickGenerateButton }: Props) => {
   return (
     <Slide>
       <SectionHeader
-        title="Generate a brandnew Artimon"
+        title="Generate a brand new Artimon"
         subtitle="Generation"
       />
       <SectionBody className="flex flex-col gap-8 md:max-w-screen-md md:mx-auto md:flex-row md:items-center md:gap-12">
@@ -24,7 +24,7 @@ const GenerationFirstSlide = ({ onClickGenerateButton }: Props) => {
         </div>
         <div className="flex flex-col gap-6 items-center md:flex-1 md:items-start">
           <p className="text-secondary font-secondary text-center md:text-left">
-            This <span className="font-bold">creates a brandnew Artimon</span>.
+            This <span className="font-bold">creates a brand new Artimon</span>.
             After that you have the chance to mint it to bring it onto the
             blockchain where it lives forever.
           </p>

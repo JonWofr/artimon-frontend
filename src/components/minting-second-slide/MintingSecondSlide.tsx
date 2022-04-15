@@ -20,7 +20,7 @@ const MintingSecondSlide = ({ artimon }: Props) => {
         <p className="text-secondary font-secondary text-center md:flex-1 md:text-left">
           Hooray, you{' '}
           <span className="font-bold">successfully minted {artimon.name}</span>{' '}
-          as an NFT. Everyone in the world can now see that you're it's rightful
+          as an NFT. Everyone in the world can now see that you're its rightful
           trainer.
         </p>
       </SectionBody>

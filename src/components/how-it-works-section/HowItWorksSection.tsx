@@ -18,7 +18,7 @@ const items: HowItWorksItemModel[] = [
   {
     title: 'NFT minting',
     description:
-      "If you're happy with the Artimon our AI generated for you you can mint it as an NFT which brings the Pokémon onto the blockchain where it lives forever.",
+      "If you're happy with the Artimon our AI generated for you you can mint it as an NFT which brings the Artimon onto the blockchain where it lives forever.",
     iconUrl: PickaxeIcon,
   },
   {

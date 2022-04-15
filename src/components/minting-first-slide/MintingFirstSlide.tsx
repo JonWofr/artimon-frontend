@@ -27,7 +27,7 @@ const MintingFirstSlide = ({ artimon, onClickMintButton }: Props) => {
       return 'You need to have MetaMask installed. Click on the button in the header to install MetaMask!';
     }
     if (!hasMetamask && isMobileOrTablet) {
-      return "This Dapp only works within the MetaMask app. Click on the button in the header to open the app or initiate installation if you don't have the app yet!";
+      return "This dapp only works within the MetaMask app. Click on the button in the header to open the app or initiate installation if you don't have the app yet!";
     }
     if (!account) {
       return 'Your MetaMask wallet has to be connected. Click on the button in the header to connect!';
