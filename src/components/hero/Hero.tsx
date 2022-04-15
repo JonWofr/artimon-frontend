@@ -35,7 +35,7 @@ const Hero = () => {
             <span className="font-bold">mint</span> your own Artimon
           </h1>
           <p className="text-secondary font-secondary mt-4 mb-8 lg:text-xl">
-            Generate a unique, brand new Artimon with the help of our generative
+            Create a unique, brand new Artimon with the help of our generative
             AI and mint it as an NFT to show it to the world!
           </p>
           <Button
