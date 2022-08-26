@@ -45,7 +45,7 @@ export const parseIPFSURL = (cid: string) => {
 };
 
 export const parseIPFSGatewayURL = (cid: string) => {
-  return `https://infura-ipfs.io/ipfs/${cid}`;
+  return `https://artimon.infura-ipfs.io/ipfs/${cid}`;
 };
 
 export const parseCid = (IPFSURL: string) => {
