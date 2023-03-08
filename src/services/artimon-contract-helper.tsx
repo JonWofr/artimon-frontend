@@ -8,8 +8,8 @@ import * as ipfsHelper from './ipfs-helper';
 
 export class ArtimonContractHelper {
   public static readonly CONTRACT_ADDRESS =
-    '0xcFAeCe5A49C2AC271bE94a56dee2f311ed3A9307';
-  public static readonly NETWORK_ID = 4;
+    '0xaF9884b0c98C9Dc3f9fD495Dd986a78AdC61b904';
+  public static readonly NETWORK_ID = 11155111;
 
   private contract: ethers.Contract;
 
@@ -58,7 +58,7 @@ export class ArtimonContractHelper {
     const txnReceipt = await nftTxn.wait();
 
     console.log(
-      `Minted, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`
+      `Minted, see transaction: https://sepolia.etherscan.io/tx/${nftTxn.hash}`
     );
 
     const { to, tokenId } = txnReceipt.events[0].args;

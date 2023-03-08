@@ -34,8 +34,8 @@ const App = () => {
   const [isRightChain, setIsRightChain] = useState(false);
 
   const { ethereum } = window;
-  // Rinkeby chain id
-  const chainId = '0x4';
+  // Sepolia chain id
+  const chainId = '0xaa36a7';
 
   useEffect(() => {
     initWeb3()
@@ -178,9 +178,7 @@ const App = () => {
           params: [
             {
               chainId,
-              rpcUrls: [
-                'https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
-              ],
+              rpcUrls: ['https://sepolia.infura.io/v3/'],
             },
           ],
         });
